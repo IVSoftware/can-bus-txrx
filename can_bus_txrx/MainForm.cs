@@ -62,16 +62,6 @@ namespace can_bus_timer
         {
             do
             {
-                // Nondeterministic. But you MUST wait for a bus read to complete
-                // or the messages will stack up and cause a system fail eventually.
-                await readCanBusSingle();
-                // Space the bus reads by 100 ms or whatever. Here it's slow for demo.
-#if PRODUCTION
-                await Task.Delay(TimeSpan.FromMilliseconds(100));
-#else
-                await Task.Delay(TimeSpan.FromSeconds(1));
-#endif
-
             }
             while (checkBoxRun.Checked);
         }
@@ -120,14 +110,6 @@ namespace can_bus_timer
 
     public class McuController
     {
-        public McuController() => Packet.Responded += onPacketResponded;
-
-        private void onPacketResponded(object sender, EventArgs e)
-        {
-            RXQueue.Enqueue((Packet)sender);
-        }
-
-        public Queue<Packet> RXQueue { get; } = new Queue<Packet>();
         internal bool TryConnect()
         {
             switch (Rando.Next(10))
@@ -139,14 +121,14 @@ namespace can_bus_timer
                     return true;
             }
         }
-
         internal async Task SendReq(int unitIndex, Packet packet)
         {
-            // TXQueue.Enqueue(packet);
+            Busy = true;
             await packet.SetMockResponse(TimeSpan.FromMilliseconds(Rando.Next(10, 51)));
+            Busy = false;
         }
-
         public static Random Rando { get; } = new Random();
+        public bool Busy { get; private set; }
     }
     public class Packet
     {
