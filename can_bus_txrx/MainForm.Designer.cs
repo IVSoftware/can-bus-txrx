@@ -32,7 +32,6 @@ namespace can_bus_timer
             this.checkBoxRun = new System.Windows.Forms.CheckBox();
             this.richTextBox = new System.Windows.Forms.RichTextBox();
             this.labelIndicator = new System.Windows.Forms.Label();
-            this.checkBoxSynchronous = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // checkBoxRun
@@ -67,19 +66,6 @@ namespace can_bus_timer
             this.labelIndicator.Size = new System.Drawing.Size(38, 38);
             this.labelIndicator.TabIndex = 2;
             // 
-            // checkBoxSynchronous
-            // 
-            this.checkBoxSynchronous.Checked = true;
-            this.checkBoxSynchronous.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxSynchronous.Location = new System.Drawing.Point(147, 14);
-            this.checkBoxSynchronous.Name = "checkBoxSynchronous";
-            this.checkBoxSynchronous.Size = new System.Drawing.Size(162, 44);
-            this.checkBoxSynchronous.TabIndex = 0;
-            this.checkBoxSynchronous.Text = "Synchronous";
-            this.checkBoxSynchronous.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBoxSynchronous.UseVisualStyleBackColor = false;
-            this.checkBoxSynchronous.CheckedChanged += new System.EventHandler(this.checkBoxRun_CheckedChanged);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
@@ -87,7 +73,6 @@ namespace can_bus_timer
             this.ClientSize = new System.Drawing.Size(778, 1144);
             this.Controls.Add(this.labelIndicator);
             this.Controls.Add(this.richTextBox);
-            this.Controls.Add(this.checkBoxSynchronous);
             this.Controls.Add(this.checkBoxRun);
             this.Name = "MainForm";
             this.Text = "Main Form";
@@ -100,7 +85,6 @@ namespace can_bus_timer
         private System.Windows.Forms.CheckBox checkBoxRun;
         private System.Windows.Forms.RichTextBox richTextBox;
         private System.Windows.Forms.Label labelIndicator;
-        private System.Windows.Forms.CheckBox checkBoxSynchronous;
     }
 }
 

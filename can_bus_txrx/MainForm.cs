@@ -54,6 +54,7 @@ namespace can_bus_timer
         {
             if (checkBoxRun.Checked)
             {
+                richTextBox.Clear();
                 await Task.Run(() => loop());
                 labelIndicator.BackColor = Color.LightGray;
             }
@@ -62,6 +63,13 @@ namespace can_bus_timer
         {
             do
             {
+                await readCanBusSingle();
+                if (!checkBoxRun.Checked) return;
+
+                // Here's where the spacing of 100 ms or whatever happens.
+                // I made it longer for test.
+                await Task.Delay(TimeSpan.FromSeconds(1));
+
             }
             while (checkBoxRun.Checked);
         }
@@ -82,16 +90,45 @@ namespace can_bus_timer
                 });
                 foreach (RequestID requestID in Enum.GetValues(typeof(RequestID)))
                 {
-                    var req = new Packet { RequestID = requestID };
-                    if (checkBoxSynchronous.Checked)
+                    var packet = new Packet { RequestID = requestID };
+                    _busController.SendReq(unitIndex: 1, packet: packet);
+
+                    // USUALLY with a hardware controller, there needs to be some
+                    // polling of the RXQueue to wait for bytes to be present.
+                    await Task.Run(() =>
                     {
-                        await _busController.SendReq(unitIndex: 1, packet: req);
+                        while(_busController.Busy)
+                        {
+                            Task.Delay(10).Wait();
+                        }
+                    });
+
+                    if (packet.MockResponse is uint[] bytes)
+                    {
+                        text = string.Join(" ", bytes.Select(_ => _.ToString("X4")));
                     }
                     else
                     {
-                        // Receive a disposable task
-                        _ = _busController.SendReq(unitIndex: 1, packet: req);
+                        text = $"{packet.MockResponse}";
                     }
+                    BeginInvoke((MethodInvoker)delegate
+                    {
+                        switch (packet.RequestID)
+                        {
+                            case RequestID.REQ1:
+                                richTextBox.SelectionColor = Color.Navy;
+                                break;
+                            case RequestID.REQ2:
+                                richTextBox.SelectionColor = Color.DarkGreen;
+                                break;
+                            case RequestID.REQ3:
+                                richTextBox.SelectionColor = Color.Maroon;
+                                break;
+                            default: throw new InvalidOperationException();
+                        }
+                        richTextBox.AppendText($"{text}{Environment.NewLine}");
+                        richTextBox.ScrollToCaret();
+                    });
                 }
             }
             else
@@ -121,7 +158,7 @@ namespace can_bus_timer
                     return true;
             }
         }
-        internal async Task SendReq(int unitIndex, Packet packet)
+        internal async void SendReq(int unitIndex, Packet packet)
         {
             Busy = true;
             await packet.SetMockResponse(TimeSpan.FromMilliseconds(Rando.Next(10, 51)));
