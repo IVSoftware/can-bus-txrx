@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32413.511
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "can_bus_txrx", "can_bus_txrx\can_bus_txrx.csproj", "{4F0EF7AB-D00A-4E05-93F1-CA749FAB4B79}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4F0EF7AB-D00A-4E05-93F1-CA749FAB4B79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F0EF7AB-D00A-4E05-93F1-CA749FAB4B79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F0EF7AB-D00A-4E05-93F1-CA749FAB4B79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F0EF7AB-D00A-4E05-93F1-CA749FAB4B79}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1FCBEA6F-B3BA-4216-9B00-A940F815AC3C}
+	EndGlobalSection
+EndGlobal
